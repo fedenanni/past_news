@@ -5,7 +5,7 @@ from different time periods.
 """
 
 import os
-from datetime import date
+from datetime import date, datetime
 from flask import Flask, request, jsonify
 
 from api.date_calculator import (
@@ -107,14 +107,14 @@ def get_news():
                 'error': 'Missing required parameter: option'
             }), 400
 
-        # Get today's date for cache key
-        today = date.today()
+        # Get current time for cache
+        now = datetime.now()
 
         # Get cache instance
         cache = get_cache()
 
-        # Check if we have cached data for this option and today
-        cached_data = cache.get(option, today)
+        # Check if we have cached data for this option
+        cached_data = cache.get(option, now)
         if cached_data is not None:
             # Return cached response
             return jsonify(cached_data)
@@ -170,7 +170,7 @@ def get_news():
             }
 
         # Cache the response for non-random options
-        cache.set(option, response_data, today)
+        cache.set(option, response_data, now)
 
         return jsonify(response_data)
 
