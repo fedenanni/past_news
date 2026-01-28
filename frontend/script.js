@@ -61,7 +61,7 @@ async function fetchNews(option) {
 
     try {
         // Call API endpoint
-        const response = await fetch(`/api/news?option=${option}`);
+        const response = await fetch(`/api/index?option=${option}`);
         const data = await response.json();
 
         // Handle response
