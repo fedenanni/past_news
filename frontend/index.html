@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Past News - Trump Timeline</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Past News</h1>
+            <p class="subtitle">See how media attention shifts over time</p>
+            <p class="description">
+                Select a time period to see the most Trump-heavy article from that date.
+                All dates maintain the same day of week as today for consistent comparison.
+            </p>
+        </header>
+
+        <main>
+            <section class="button-group">
+                <button class="time-button" data-option="one_week">
+                    One Week Ago
+                    <span class="button-subtitle">Same day last week</span>
+                </button>
+                <button class="time-button" data-option="two_weeks">
+                    Two Weeks Ago
+                    <span class="button-subtitle">Same day, two weeks back</span>
+                </button>
+                <button class="time-button" data-option="one_month">
+                    One Month Ago
+                    <span class="button-subtitle">Same day last month</span>
+                </button>
+                <button class="time-button" data-option="random">
+                    Random Date
+                    <span class="button-subtitle">Since May 2016</span>
+                </button>
+            </section>
+
+            <section id="results" class="results hidden">
+                <div id="loading" class="loading hidden">
+                    <div class="spinner"></div>
+                    <p>Loading article...</p>
+                </div>
+
+                <div id="article-container" class="article-container hidden">
+                    <div class="article-date">
+                        <span id="article-date-label"></span>
+                    </div>
+                    <article class="article">
+                        <h2 id="article-headline"></h2>
+                        <div id="article-excerpt" class="article-excerpt"></div>
+                        <div class="article-meta">
+                            <span id="article-published"></span>
+                            <a id="article-url" href="#" target="_blank" rel="noopener noreferrer">
+                                Read full article →
+                            </a>
+                        </div>
+                    </article>
+                </div>
+
+                <div id="quiet-day" class="quiet-day hidden">
+                    <div class="quiet-day-icon">📰</div>
+                    <h2>A Quiet Day</h2>
+                    <p id="quiet-day-message">No Trump coverage found on this day.</p>
+                    <p class="quiet-day-date" id="quiet-day-date"></p>
+                </div>
+
+                <div id="error-container" class="error-container hidden">
+                    <div class="error-icon">⚠️</div>
+                    <h2>Oops!</h2>
+                    <p id="error-message">Something went wrong.</p>
+                    <button id="retry-button" class="retry-button">Try Again</button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>
+                Data provided by
+                <a href="https://open-platform.theguardian.com/" target="_blank" rel="noopener noreferrer">
+                    The Guardian Open Platform
+                </a>
+            </p>
+            <p class="footnote">
+                Articles selected based on Trump mention frequency in headlines and body text.
+            </p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
