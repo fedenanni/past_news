@@ -54,7 +54,7 @@ def get_target_date(option: str, reference_date: date = None) -> date:
         raise ValueError(f"Invalid option: {option}. Must be one of: one_week, two_weeks, one_month, random")
 
 
-@app.route('/api/news', methods=['GET'])
+@app.route('/', methods=['GET'])
 def get_news():
     """
     API endpoint to fetch Trump news from a specific time period.
