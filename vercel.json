@@ -1,9 +1,4 @@
 {
-  "functions": {
-    "api/**/*.py": {
-      "includeFiles": "src/**"
-    }
-  },
   "rewrites": [
     { "source": "/", "destination": "/frontend/index.html" },
     { "source": "/((?!api).*)", "destination": "/frontend/$1" }
