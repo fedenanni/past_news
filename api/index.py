@@ -8,15 +8,15 @@ import os
 from datetime import date
 from flask import Flask, request, jsonify
 
-from date_calculator import (
+from api.date_calculator import (
     get_one_week_ago,
     get_two_weeks_ago,
     get_one_month_ago,
     get_random_week_same_day,
 )
-from guardian_client import GuardianClient, GuardianAPIError, GuardianRateLimitError
-from article_selector import select_most_relevant_article
-from news_cache import get_cache
+from api.guardian_client import GuardianClient, GuardianAPIError, GuardianRateLimitError
+from api.article_selector import select_most_relevant_article
+from api.news_cache import get_cache
 
 app = Flask(__name__)
 
