@@ -4,18 +4,21 @@ A dynamic web application that demonstrates how media attention shifts over time
 
 ## Features
 
+- **Today**: See the most Trump-heavy article from today (auto-loads on page load)
 - **One Week Ago**: See the most Trump-heavy article from last week (same day of week)
 - **Two Weeks Ago**: View articles from two weeks back (same day of week)
 - **One Month Ago**: Check coverage from approximately one month ago (same day of week)
 - **Random Date**: Get a random article from the same weekday between today and May 26, 2016 (Trump campaign announcement period)
 
-Articles are selected using a heuristic that scores Trump mentions in headlines (weighted 3x) and body text (weighted 1x) to find the most relevant coverage from each date.
+Articles are selected by first filtering to those with "Trump" in the headline, then choosing the one with the most Trump mentions in the body text.
 
 ## Technology Stack
 
-- **Frontend**: HTML, CSS, JavaScript (vanilla)
-- **Backend**: Python with Flask
-- **Deployment**: Vercel serverless functions
+- **Frontend**: HTML, CSS, JavaScript (vanilla) - Deployed to GitHub Pages
+- **Backend**: Python with Flask - Vercel serverless functions
+- **Deployment**:
+  - Frontend: GitHub Pages (from `docs/` folder)
+  - Backend API: Vercel serverless functions
 - **API**: The Guardian Open Platform API
 - **Testing**: pytest with responses for HTTP mocking
 
@@ -24,12 +27,17 @@ Articles are selected using a heuristic that scores Trump mentions in headlines 
 ```
 past_news/
 ├── api/                    # Vercel serverless functions
-│   └── index.py           # Main API endpoint
-├── frontend/              # Static files
+│   ├── __init__.py
+│   ├── index.py           # Main API endpoint
+│   ├── date_calculator.py # Date calculation logic (copy for Vercel)
+│   ├── guardian_client.py # Guardian API wrapper (copy for Vercel)
+│   ├── article_selector.py # Article selection heuristic (copy for Vercel)
+│   └── news_cache.py      # Daily news caching system (copy for Vercel)
+├── docs/                  # Static frontend files (GitHub Pages)
 │   ├── index.html
 │   ├── styles.css
 │   └── script.js
-├── src/                   # Core Python modules
+├── src/                   # Core Python modules (for local dev/testing)
 │   ├── __init__.py
 │   ├── date_calculator.py # Date calculation logic
 │   ├── guardian_client.py # Guardian API wrapper
@@ -39,19 +47,24 @@ past_news/
 │   ├── test_date_calculator.py
 │   ├── test_guardian_client.py
 │   ├── test_article_selector.py
-│   └── test_news_cache.py
-├── .gitignore             # Git ignore patterns
-├── vercel.json            # Vercel configuration
-├── pyproject.toml         # Python dependencies
+│   ├── test_news_cache.py
+│   └── test_integration.py
 ├── .env.example           # Environment variable template
-└── README.md             # This file
+├── .gitignore             # Git ignore patterns
+├── .vercelignore          # Vercel deployment ignore patterns
+├── pyproject.toml         # Python project config and dependencies
+├── requirements.txt       # Python dependencies (for Vercel)
+├── uv.lock                # uv package lock file
+├── vercel.json            # Vercel configuration
+├── vercel_reqs.txt        # Minimal requirements for testing
+└── README.md              # This file
 ```
 
 ## Setup
 
 ### Prerequisites
 
-- Python 3.13+
+- Python 3.12+
 - uv (or pip)
 - The Guardian API key (free)
 
@@ -121,9 +134,17 @@ export GUARDIAN_API_KEY='your-key-here'
 cd api && uv run python index.py
 ```
 
-## Deployment to Vercel
+The local API server will run on `http://localhost:5001`. To test the frontend with the local API, update the API URL in [docs/script.js](docs/script.js#L67) temporarily.
 
-### First-time setup:
+## Deployment
+
+The application uses a hybrid deployment strategy:
+- **Frontend**: Deployed to GitHub Pages from the `docs/` folder
+- **Backend API**: Deployed to Vercel as serverless functions
+
+### Deploying the Backend (Vercel)
+
+#### First-time setup:
 
 1. **Install Vercel CLI**:
    ```bash
@@ -141,22 +162,43 @@ cd api && uv run python index.py
    ```
    Enter your Guardian API key when prompted.
 
-### Deploy:
+#### Deploy:
 
 ```bash
 vercel --prod
 ```
 
-The application will be deployed to a Vercel URL (e.g., `your-project.vercel.app`).
+The API will be deployed to a Vercel URL (e.g., `https://past-news.vercel.app/api/index`).
+
+### Deploying the Frontend (GitHub Pages)
+
+1. **Enable GitHub Pages** in your repository settings:
+   - Go to Settings → Pages
+   - Set Source to "Deploy from a branch"
+   - Select branch: `main`
+   - Select folder: `/docs`
+
+2. **Push changes** to the main branch:
+   ```bash
+   git add docs/
+   git commit -m "Update frontend"
+   git push origin main
+   ```
+
+3. The site will be automatically deployed to `https://<username>.github.io/<repository>/`
+
+**Note**: Update the API endpoint URL in [docs/script.js](docs/script.js) to match your Vercel deployment URL.
 
 ## API Reference
 
-### GET /api/news
+### GET /api/index
 
 Fetches Trump-related news from a specific time period.
 
 **Query Parameters:**
-- `option` (required): One of `one_week`, `two_weeks`, `one_month`, or `random`
+- `option` (required): One of `today`, `one_week`, `two_weeks`, `one_month`, or `random`
+
+**CORS:** The API includes CORS headers to allow requests from any origin (for GitHub Pages integration).
 
 **Success Response (with article):**
 ```json
@@ -190,6 +232,31 @@ Fetches Trump-related news from a specific time period.
 }
 ```
 
+## Architecture
+
+The application follows a decoupled frontend/backend architecture:
+
+### Frontend (GitHub Pages)
+- Static HTML/CSS/JavaScript hosted on GitHub Pages
+- Located in the `docs/` folder
+- Makes API requests to the Vercel backend
+- Styled with a Guardian-inspired color palette
+
+### Backend (Vercel Serverless)
+- Python Flask application deployed as Vercel serverless functions
+- Core modules duplicated in `api/` folder (Vercel requirement - needs flat structure)
+- Source modules in `src/` folder used for local development and testing
+- Implements CORS headers to allow cross-origin requests from GitHub Pages
+
+### Module Duplication
+The Python modules exist in both `src/` and `api/` directories:
+- **`src/`**: Used for local development and pytest testing
+- **`api/`**: Copies required by Vercel's serverless deployment (must be in same directory as endpoint)
+
+This structure allows for clean testing with pytest while meeting Vercel's deployment requirements.
+
+**Important**: When modifying Python modules, ensure changes are synchronized between `src/` and `api/` directories to maintain consistency between local testing and production deployment.
+
 ## How It Works
 
 ### Date Calculation
@@ -201,13 +268,12 @@ The application maintains the same day of week for all date calculations:
 
 ### Article Selection
 
-Articles are scored using a heuristic:
-1. Count Trump mentions in headline (weight: 3x)
-2. Count Trump mentions in body text (weight: 1x)
-3. Select the article with the highest score
-4. Extract the first 3 paragraphs for display
+Articles are selected using a two-step process:
+1. Filter to articles with "Trump" in the headline (required)
+2. From those filtered articles, select the one with the most Trump mentions in the body text
+3. Extract the first 3 paragraphs for display
 
-If no articles mention Trump on a given date (rare post-2016), a "quiet day" message is shown.
+If no articles have Trump in the headline on a given date (rare post-2016), a "quiet day" message is shown.
 
 ### Daily News Caching
 
@@ -221,12 +287,13 @@ The application implements intelligent caching to minimize API calls:
 2. **Automatic cleanup**: When a new day starts, previous day's cache is automatically cleared
 
 3. **What gets cached**:
+   - ✅ Today articles
    - ✅ One week ago articles
    - ✅ Two weeks ago articles
    - ✅ One month ago articles
    - ❌ Random articles (always fetched fresh for variety)
 
-This means each cacheable option (one_week, two_weeks, one_month) only hits the API once per day, significantly reducing API usage from 300+ requests to typically 3-6 requests per day.
+This means each cacheable option (today, one_week, two_weeks, one_month) only hits the API once per day, significantly reducing API usage from 300+ requests to typically 4-8 requests per day.
 
 ## Rate Limits
 
@@ -234,7 +301,7 @@ The Guardian API free tier provides:
 - **300 requests per day**
 - Resets at midnight UTC
 
-With the built-in daily caching system, the application typically uses only **3-6 API calls per day** (one for each non-random option when first requested). This leaves plenty of headroom for multiple users and random article requests.
+With the built-in daily caching system, the application typically uses only **4-8 API calls per day** (one for each non-random option when first requested). This leaves plenty of headroom for multiple users and random article requests.
 
 ## Future Enhancements
 
@@ -253,6 +320,13 @@ This project is for educational and demonstration purposes.
 ## Data Attribution
 
 Article data provided by [The Guardian Open Platform](https://open-platform.theguardian.com/).
+
+## Live Demo
+
+- **Frontend**: Deployed on GitHub Pages
+- **Backend API**: Deployed on Vercel at `https://past-news.vercel.app/api/index`
+
+The application automatically loads today's news when you visit the page.
 
 ## Contributing
 
