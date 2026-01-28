@@ -1,0 +1,6 @@
+pyproject.toml
+tests/
+src/
+DEBUGGING_NOTES.md
+.pytest_cache/
+__pycache__/

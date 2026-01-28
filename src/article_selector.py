@@ -94,10 +94,10 @@ def extract_paragraphs(html_body: str, max_paragraphs: int = 3) -> str:
 
 def select_most_relevant_article(articles: list[dict]) -> Optional[dict]:
     """
-    Select the most Trump-relevant article from a list using a scoring heuristic.
+    Select the most Trump-relevant article from a list.
 
-    The function calculates a relevance score for each article and returns the
-    one with the highest score. The returned article is formatted for display.
+    First filters to articles with "Trump" in the headline, then picks the one
+    with the most Trump mentions in the content.
 
     Args:
         articles: List of article dictionaries from Guardian API
@@ -108,7 +108,7 @@ def select_most_relevant_article(articles: list[dict]) -> Optional[dict]:
         - excerpt: First 3 paragraphs of body
         - url: Article URL
         - published: Publication date
-        Or None if no articles provided or all have zero relevance
+        Or None if no articles provided or none have Trump in headline
 
     Example:
         >>> articles = [
@@ -122,18 +122,28 @@ def select_most_relevant_article(articles: list[dict]) -> Optional[dict]:
     if not articles:
         return None
 
-    # Calculate scores for all articles
-    scored_articles = []
+    # Filter to articles with "Trump" in the headline
+    trump_headline_articles = []
     for article in articles:
-        score = calculate_relevance_score(article)
-        if score > 0:  # Only consider articles with at least one Trump mention
-            scored_articles.append((score, article))
+        headline = article.get('webTitle', '')
+        if article.get('fields'):
+            headline = article.get('fields', {}).get('headline', headline)
 
-    # If no articles have Trump mentions, return None
-    if not scored_articles:
+        if count_trump_mentions(headline) > 0:
+            trump_headline_articles.append(article)
+
+    # If no articles have Trump in headline, return None
+    if not trump_headline_articles:
         return None
 
-    # Sort by score (descending) and get the best one
+    # From filtered articles, find the one with most Trump mentions in body
+    scored_articles = []
+    for article in trump_headline_articles:
+        body = article.get('fields', {}).get('body', '')
+        body_mentions = count_trump_mentions(body)
+        scored_articles.append((body_mentions, article))
+
+    # Sort by body mentions (descending) and get the best one
     scored_articles.sort(key=lambda x: x[0], reverse=True)
     best_article = scored_articles[0][1]
 
