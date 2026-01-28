@@ -48,3 +48,4 @@ htmlcov/
 *.pyc
 *.pyo
 .vercel
+uv.lock
