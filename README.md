@@ -24,7 +24,7 @@ Articles are selected using a heuristic that scores Trump mentions in headlines 
 ```
 past_news/
 ├── api/                    # Vercel serverless functions
-│   └── news.py            # Main API endpoint
+│   └── index.py           # Main API endpoint
 ├── frontend/              # Static files
 │   ├── index.html
 │   ├── styles.css
@@ -118,7 +118,7 @@ uv run python -c "from src.guardian_client import GuardianClient; from datetime 
 
 ```bash
 export GUARDIAN_API_KEY='your-key-here'
-cd api && uv run python news.py
+cd api && uv run python index.py
 ```
 
 ## Deployment to Vercel
