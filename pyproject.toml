@@ -1,7 +1,3 @@
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
 [project]
 name = "past-news"
 version = "0.1.0"
@@ -20,9 +16,6 @@ dev = [
     "pytest-mock>=3.12.0",
     "responses>=0.24.0",
 ]
-
-[tool.hatch.build.targets.wheel]
-packages = ["src"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
