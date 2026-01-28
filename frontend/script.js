@@ -47,6 +47,9 @@ function init() {
             fetchNews(currentOption);
         }
     });
+
+    // Auto-load today's news on page load
+    fetchNews('today');
 }
 
 /**

@@ -26,7 +26,7 @@ def get_target_date(option: str, reference_date: date = None) -> date:
     Calculate target date based on option parameter.
 
     Args:
-        option: One of "one_week", "two_weeks", "one_month", "random"
+        option: One of "today", "one_week", "two_weeks", "one_month", "random"
         reference_date: Reference date to calculate from (default: today)
 
     Returns:
@@ -38,7 +38,9 @@ def get_target_date(option: str, reference_date: date = None) -> date:
     if reference_date is None:
         reference_date = date.today()
 
-    if option == "one_week":
+    if option == "today":
+        return reference_date
+    elif option == "one_week":
         return get_one_week_ago(reference_date)
     elif option == "two_weeks":
         return get_two_weeks_ago(reference_date)
@@ -47,7 +49,7 @@ def get_target_date(option: str, reference_date: date = None) -> date:
     elif option == "random":
         return get_random_week_same_day(reference_date)
     else:
-        raise ValueError(f"Invalid option: {option}. Must be one of: one_week, two_weeks, one_month, random")
+        raise ValueError(f"Invalid option: {option}. Must be one of: today, one_week, two_weeks, one_month, random")
 
 
 @app.route('/api/index', methods=['GET'])
@@ -56,7 +58,7 @@ def get_news():
     API endpoint to fetch Trump news from a specific time period.
 
     Query Parameters:
-        option: Time period option ("one_week", "two_weeks", "one_month", "random")
+        option: Time period option ("today", "one_week", "two_weeks", "one_month", "random")
 
     Returns:
         JSON response with article data or error message

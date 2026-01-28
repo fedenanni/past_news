@@ -13,28 +13,16 @@
             <p class="subtitle">See how media attention shifts over time</p>
             <p class="description">
                 Select a time period to see the most Trump-heavy article from that date.
-                All dates maintain the same day of week as today for consistent comparison.
             </p>
         </header>
 
         <main>
             <section class="button-group">
-                <button class="time-button" data-option="one_week">
-                    One Week Ago
-                    <span class="button-subtitle">Same day last week</span>
-                </button>
-                <button class="time-button" data-option="two_weeks">
-                    Two Weeks Ago
-                    <span class="button-subtitle">Same day, two weeks back</span>
-                </button>
-                <button class="time-button" data-option="one_month">
-                    One Month Ago
-                    <span class="button-subtitle">Same day last month</span>
-                </button>
-                <button class="time-button" data-option="random">
-                    Random Date
-                    <span class="button-subtitle">Since May 2016</span>
-                </button>
+                <button class="time-button" data-option="today">Today</button>
+                <button class="time-button" data-option="one_week">One Week Ago</button>
+                <button class="time-button" data-option="two_weeks">Two Weeks Ago</button>
+                <button class="time-button" data-option="one_month">One Month Ago</button>
+                <button class="time-button" data-option="random">Random Date</button>
             </section>
 
             <section id="results" class="results hidden">
@@ -82,8 +70,9 @@
                     The Guardian Open Platform
                 </a>
             </p>
-            <p class="footnote">
-                Articles selected based on Trump mention frequency in headlines and body text.
+            <p class="credits">
+                Built by <a href="https://github.com/fedenanni" target="_blank" rel="noopener noreferrer">fedenanni</a>
+                and <a href="https://claude.ai" target="_blank" rel="noopener noreferrer">Claude</a> in a few hours: enjoy!
             </p>
         </footer>
     </div>

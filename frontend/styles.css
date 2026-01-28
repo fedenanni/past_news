@@ -6,10 +6,10 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: 'Guardian Text Sans Web', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     line-height: 1.6;
-    color: #333;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #121212;
+    background: #f6f6f6;
     min-height: 100vh;
     padding: 20px;
 }
@@ -26,16 +26,18 @@ body {
 
 /* Header */
 header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #052962;
     color: white;
     padding: 40px 30px;
     text-align: center;
 }
 
 header h1 {
+    font-family: 'Georgia', 'Guardian Egyptian Web', serif;
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 10px;
+    letter-spacing: -0.5px;
 }
 
 .subtitle {
@@ -66,10 +68,10 @@ main {
 
 .time-button {
     background: white;
-    border: 2px solid #667eea;
-    color: #667eea;
+    border: 2px solid #052962;
+    color: #052962;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 4px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
@@ -81,10 +83,10 @@ main {
 }
 
 .time-button:hover {
-    background: #667eea;
+    background: #052962;
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 5px 15px rgba(5, 41, 98, 0.3);
 }
 
 .time-button:active {
@@ -117,7 +119,7 @@ main {
     height: 50px;
     margin: 0 auto 20px;
     border: 4px solid #f3f3f3;
-    border-top: 4px solid #667eea;
+    border-top: 4px solid #052962;
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -140,11 +142,11 @@ main {
 .article-date {
     background: #f8f9fa;
     padding: 12px 20px;
-    border-left: 4px solid #667eea;
+    border-left: 4px solid #052962;
     margin-bottom: 25px;
     border-radius: 4px;
     font-weight: 600;
-    color: #667eea;
+    color: #052962;
 }
 
 .article {
@@ -152,10 +154,13 @@ main {
 }
 
 #article-headline {
+    font-family: 'Georgia', 'Guardian Egyptian Web', serif;
     font-size: 1.8rem;
     line-height: 1.3;
     margin-bottom: 20px;
-    color: #1a1a1a;
+    color: #121212;
+    font-weight: 700;
+    letter-spacing: -0.5px;
 }
 
 .article-excerpt {
@@ -182,14 +187,14 @@ main {
 }
 
 #article-url {
-    color: #667eea;
+    color: #052962;
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
 #article-url:hover {
-    color: #764ba2;
+    color: #506991;
 }
 
 /* Quiet day */
@@ -219,7 +224,7 @@ main {
 .quiet-day-date {
     margin-top: 10px;
     font-weight: 600;
-    color: #667eea;
+    color: #052962;
 }
 
 /* Error container */
@@ -247,11 +252,11 @@ main {
 }
 
 .retry-button {
-    background: #667eea;
+    background: #052962;
     color: white;
     border: none;
     padding: 12px 30px;
-    border-radius: 6px;
+    border-radius: 4px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
@@ -259,7 +264,7 @@ main {
 }
 
 .retry-button:hover {
-    background: #764ba2;
+    background: #506991;
     transform: translateY(-2px);
 }
 
@@ -273,7 +278,7 @@ footer {
 }
 
 footer a {
-    color: #667eea;
+    color: #052962;
     text-decoration: none;
 }
 
@@ -281,7 +286,7 @@ footer a:hover {
     text-decoration: underline;
 }
 
-.footnote {
+.credits {
     margin-top: 10px;
     font-size: 0.85rem;
     opacity: 0.8;
