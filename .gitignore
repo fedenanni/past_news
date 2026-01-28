@@ -47,3 +47,4 @@ htmlcov/
 # Build outputs
 *.pyc
 *.pyo
+.vercel
