@@ -8,15 +8,15 @@ import os
 from datetime import date
 from flask import Flask, request, jsonify
 
-from date_calculator import (
+from api.date_calculator import (
     get_one_week_ago,
     get_two_weeks_ago,
     get_one_month_ago,
     get_random_week_same_day,
 )
-from guardian_client import GuardianClient, GuardianAPIError, GuardianRateLimitError
-from article_selector import select_most_relevant_article
-from news_cache import get_cache
+from api.guardian_client import GuardianClient, GuardianAPIError, GuardianRateLimitError
+from api.article_selector import select_most_relevant_article
+from api.news_cache import get_cache
 
 app = Flask(__name__)
 
@@ -50,7 +50,7 @@ def get_target_date(option: str, reference_date: date = None) -> date:
         raise ValueError(f"Invalid option: {option}. Must be one of: one_week, two_weeks, one_month, random")
 
 
-@app.route('/', methods=['GET'])
+@app.route('/api/index', methods=['GET'])
 def get_news():
     """
     API endpoint to fetch Trump news from a specific time period.
