@@ -175,13 +175,6 @@ def get_news():
         }), 500
 
 
-# For Vercel serverless function
-def handler(request, response):
-    """Vercel serverless function handler."""
-    with app.request_context(request.environ):
-        return app.full_dispatch_request()
-
-
 # For local testing
 if __name__ == '__main__':
     app.run(debug=True)
