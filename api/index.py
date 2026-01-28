@@ -21,6 +21,15 @@ from api.news_cache import get_cache
 app = Flask(__name__)
 
 
+@app.after_request
+def add_cors_headers(response):
+    """Add CORS headers to allow requests from GitHub Pages."""
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    return response
+
+
 def get_target_date(option: str, reference_date: date = None) -> date:
     """
     Calculate target date based on option parameter.
