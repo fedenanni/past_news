@@ -1,4 +1,4 @@
-# Past News - Trump Timeline
+# Past News
 
 A dynamic web application that demonstrates how media attention shifts over time by displaying Trump-related news from different historical periods. Each article shown is from the same day of the week as today, allowing for consistent temporal comparisons.
 
